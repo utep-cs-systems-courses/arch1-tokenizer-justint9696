@@ -11,11 +11,11 @@ List *init_history() {
 void add_history(List *list, char *str) {
   // Adds item to linked list.
   int id = 0;
+  Item *item = (Item *)malloc(sizeof(Item));
 
   // If the root is NULL, then no root has been assigned; assign item at root.
   // If not, then find the first node that is NULL and assign the item to that node.
   if (list->root == NULL) {
-    Item *item = (Item *)malloc(sizeof(Item));
     item->id = id;
     item->str = str;
     item->next = NULL;
@@ -23,7 +23,6 @@ void add_history(List *list, char *str) {
   } else { 
     id++;
     Item *tmp = list->root;
-    Item *item = (Item *)malloc(sizeof(Item));
     while (tmp->next != NULL) {
       id++;
       tmp = tmp->next;
@@ -60,5 +59,12 @@ void print_history(List *list) {
 }
 
 void free_history(List *list) {
-  free(list);
+  // Frees space of every item with allocated memory.
+  Item *tmp = list->root;
+  Item *item;
+  while (tmp != NULL) {
+    item = tmp;
+    tmp = tmp->next;
+    free(item);
+  }
 }
