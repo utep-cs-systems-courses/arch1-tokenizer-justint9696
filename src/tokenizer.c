@@ -53,7 +53,7 @@ char *copy_str(char *inStr, short len) {
   // Creates a new string of length 'len' and contains 'len' chars from the string and return it.
   char *outStr = malloc(len + 1);
   for (int i = 0; i < len; i++) {
-    outStr[i] = *&inStr[i];
+    outStr[i] = inStr[i];
   }
   outStr[len] = '\0';
   return outStr;
@@ -80,5 +80,8 @@ void print_tokens(char **tokens) {
 }
 
 void free_tokens(char **tokens) {
+  for (char **tmp = tokens; tmp[0] != NULL; *tmp++) {
+    free(tmp[0]);
+  }
   free(tokens);
 }
