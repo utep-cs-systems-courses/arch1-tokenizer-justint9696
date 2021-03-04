@@ -50,10 +50,22 @@ int main() {
 
   List *list = init_history();
 
-  add_history(list, "hello");
-  add_history(list, "world");
-
+  add_history(list, "the");
+  add_history(list, "cake");
+  add_history(list, "is");
+  add_history(list, "good");
+  
   print_history(list);
+
+  char *history;
+
+  history = get_history(list, 1);
+  printf("get_history()\n%s\n", history);
+
+  history = get_history(list, 100);
+  printf("get_history()\n%s\n", history);
+
+  free_history(list);
   
   return 0;
 }
