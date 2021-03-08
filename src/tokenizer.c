@@ -50,8 +50,8 @@ int count_words(char *str) {
 }
 
 char *copy_str(char *inStr, short len) {
-  // Creates a new string of length 'len' and contains 'len' chars from the string and return it.
-  char *outStr = malloc(len + 1);
+  // Creates a new string of length 'len' which contains 'len' chars from the string and return it.
+  char *outStr = malloc((len + 1) *  sizeof(char *));
   for (int i = 0; i < len; i++) {
     outStr[i] = inStr[i];
   }
@@ -60,8 +60,9 @@ char *copy_str(char *inStr, short len) {
 }
 
 char **tokenize(char *str) {
+  // Recieves a string, splits each word of the string into an array of words and returns.
   int size = count_words(str);
-  char **t = malloc((size + 1) * sizeof(char*));
+  char **t = malloc((size + 1) * sizeof(char *));
   char *tmp;
   for (int i = 0; i < size; i++) {
     tmp = word_terminator(str);
@@ -72,6 +73,7 @@ char **tokenize(char *str) {
 }
 
 void print_tokens(char **tokens) {
+  // Recives an array of words and prints out each one.
   printf("Tokens:\n");
   int n = 0;
   for (char **tmp = tokens; tmp[0] != NULL; *tmp++, n++) {
@@ -80,6 +82,7 @@ void print_tokens(char **tokens) {
 }
 
 void free_tokens(char **tokens) {
+  // Frees each all memory allocated in tokenize().
   for (char **tmp = tokens; tmp[0] != NULL; *tmp++) {
     free(tmp[0]);
   }
