@@ -4,68 +4,44 @@
 #include "tokenizer.h"
 #include "history.h"
 
-int main() {
-  // Testing tokenizer.c
+int main(void) {
+  int running = 1;
   
-  char *str = "the cake is good";
+  // Maximum input string is 32.
+  char input[32];
 
-  int test;
-  char *test2;
-  char **test3;
-  
-  test = space_char(' ');
-  printf("space_char: %i\n", test);
-
-  test = non_space_char('\t');
-  printf("non_space_char: %i\n", test);
-
-  test2 = word_start(str);
-  printf("word_start: %s\n", test2);
-
-  test2 = word_start(test2);
-  printf("word_start: %s\n", test2);
-
-  test2 = word_terminator(str);
-  printf("word_terminator: %s\n", test2);
-
-  test = count_words(str);
-  printf("count_words: %i\n", test);
-
-  test2 = copy_str("hello", 4);
-  printf("copy_str: %p\n", (void*)&str);
-  
-  test2 = copy_str(str, 3);
-  printf("copy_str: %p\n", (void*)&test2);
-
-  test3 = tokenize(str);
-  //printf("tokenize:\n");
-  //for (int i = 0; i < 4; i++)
-  //printf("%i: %s\n", i, test3[i]);
-
-  print_tokens(test3);
-
-  free_tokens(test3);
-  
-  // Testing history.c
-
+  // Allocate memory for linked list.
   List *list = init_history();
-
-  add_history(list, "the");
-  add_history(list, "cake");
-  add_history(list, "is");
-  add_history(list, "good");
   
-  print_history(list);
+  printf("Enter a string or type 'help' for options.\n");
+  
+  while (running) {
+    printf("> ");
 
-  char *history;
+    // Receive input from user and store in char *input.
+    scanf("%s", input);
 
-  history = get_history(list, 1);
-  printf("get_history()\n%s\n", history);
-
-  history = get_history(list, 100);
-  printf("get_history()\n%s\n", history);
-
-  free_history(list);
+    // Echo input back to user.
+    printf("%s\n", input);
+    
+    if (!strcmp(input, "help")) {
+      // Show all available options to user.
+      printf("history - show all input history\nquit - quit the program\n");
+    } else if (!strcmp(input, "history")) {
+      // Display all input history from user.
+      print_history(list);
+    } else if (!strcmp(input, "quit")) {
+      // Free allocated memory within linked list.
+      free_history(list);
+      // Terminate the program.
+      running = 0;
+    } else if (input[0] == '!' && strlen(input) > 1) {
+      // Cannot directly convert string to integer?
+    } else {
+      // Add input to linked list.
+      add_history(list, input);
+    }
+  }
   
   return 0;
 }
